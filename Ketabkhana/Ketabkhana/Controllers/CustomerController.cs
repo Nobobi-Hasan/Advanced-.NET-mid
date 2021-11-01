@@ -22,6 +22,13 @@ namespace Ketabkhana.Controllers
             return View(b);
         }
 
+        [HttpPost]
+        public ActionResult Index(string bt)
+        {
+            var src = BookRepo.SrcBooks(bt);
+            return View(src);
+        }
+
         /// <summary>
         /// #######################################################################
         /// </summary>
@@ -95,7 +102,8 @@ namespace Ketabkhana.Controllers
                 else if (Request.Form["Delete"] != null)
                 {
                     CustomerRepo.Delete(c);
-                    return RedirectToAction("About", "Home");
+                    Session.Abandon();
+                    return RedirectToAction("Login", "Home");
                 }
 
                 return View(c);
@@ -168,6 +176,76 @@ namespace Ketabkhana.Controllers
         }
 
 
+        public ActionResult PlusCart(int id)
+        {
+
+
+            List<BookModel> books;
+
+            var json = Session["cart"].ToString();
+            books = new JavaScriptSerializer().Deserialize<List<BookModel>>(json);
+
+            foreach (BookModel b in books)
+            {
+                if (b.id == id)
+                {
+                    b.quantity += 1;
+
+                    var json2 = new JavaScriptSerializer().Serialize(books);
+                    Session["cart"] = json2;
+                }
+
+
+            }
+            return RedirectToAction("Cart");
+
+        }
+
+        public ActionResult MinusCart(int id)
+        {
+
+
+            List<BookModel> books;
+            List<BookModel> books2;
+
+            var json = Session["cart"].ToString();
+            books = new JavaScriptSerializer().Deserialize<List<BookModel>>(json);
+
+            foreach (BookModel b in books)
+            {
+                if (b.id == id)
+                {
+                    b.quantity -= 1;
+
+                    if(b.quantity<=0)
+                    {
+                        books2 = new List<BookModel>();
+                        foreach (var book in books)
+                        {
+                            if (book.id != id)
+                                books2.Add(book);
+                        }
+
+
+                        var json3 = new JavaScriptSerializer().Serialize(books2);
+
+                        Session["cart"] = json3;
+                        return RedirectToAction("Cart");
+                    }
+
+                    var json2 = new JavaScriptSerializer().Serialize(books);
+                    Session["cart"] = json2;
+                    
+                    
+                }
+
+
+            }
+            return RedirectToAction("Cart");
+
+        }
+
+
         public ActionResult DeleteFromCart(int id)
         {
             var bm = BookRepo.Get(id);
@@ -193,6 +271,7 @@ namespace Ketabkhana.Controllers
             return RedirectToAction("Cart");
 
         }
+
 
 
         public ActionResult ClearCart()

@@ -379,7 +379,9 @@ namespace Ketabkhana.Controllers
                 else if (Request.Form["Delete"] != null)
                 {
                     AdminRepo.Delete(a);
-                    return RedirectToAction("About", "Home");
+
+                    Session.Abandon();
+                    return RedirectToAction("Login", "Home");
                 }
 
                 return View(a);

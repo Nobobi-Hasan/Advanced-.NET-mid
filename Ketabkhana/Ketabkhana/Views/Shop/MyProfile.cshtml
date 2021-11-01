@@ -8,7 +8,7 @@
 
 <form action="/Shop/MyProfile" method="post">
 
-    ID: <input type="number" class="form-control" value=@Model.id name="id" />
+    ID: <input type="number" class="form-control" value=@Model.id name="id" readonly/>
 
     Shop Name: <input type="text" class="form-control" value=@Model.shopName name="shopName" />
     @Html.ValidationMessageFor(m => m.shopName, "", new { @class = "text-danger" })<br>

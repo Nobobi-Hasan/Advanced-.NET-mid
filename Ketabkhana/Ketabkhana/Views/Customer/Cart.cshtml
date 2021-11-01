@@ -35,7 +35,13 @@
             <td>@b.shopId</td>
             <td>@b.quantity</td>
             <td> <img src="~/images/@b.thumbnail" alt="" height=180 width=150> </td>
-            <td><a href="/Customer/DeleteFromCart/@b.id" class="btn btn-danger">Delete From Cart</a></td>
+            <td>
+
+                <a href="/Customer/PlusCart/@b.id" class="btn btn-success">+1</a>
+                <a href="/Customer/MinusCart/@b.id" class="btn btn-warning">-1</a>
+                <a href="/Customer/DeleteFromCart/@b.id" class="btn btn-danger">Remove</a>
+
+            </td>
         </tr>
     }
 </table>

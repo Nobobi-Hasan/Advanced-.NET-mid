@@ -177,7 +177,8 @@ namespace Ketabkhana.Controllers
                 else if (Request.Form["Delete"] != null)
                 {
                     ShopRepo.Delete(s);
-                    return RedirectToAction("About", "Home");
+                    Session.Abandon();
+                    return RedirectToAction("Login", "Home");
                 }
 
                 return View(s);

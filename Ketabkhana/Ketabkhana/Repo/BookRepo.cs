@@ -65,6 +65,34 @@ namespace Ketabkhana.Repo
             return books;
         }
 
+        public static List<BookModel> SrcBooks(string bt)
+        {
+            var src = (from b in db.Books
+                        where b.bookTitle == bt
+                        select b);
+
+            var books = new List<BookModel>();
+
+            foreach (var book in src)
+            {
+                BookModel bm = new BookModel()
+                {
+                    id = book.id,
+                    bookTitle = book.bookTitle,
+                    author = book.author,
+                    publisher = book.publisher,
+                    edition = book.edition,
+                    price = book.price,
+                    shopId = book.shopId,
+                    quantity = book.quantity,
+                    thumbnail = book.thumbnail
+                };
+
+                books.Add(bm);
+            }
+            return books;
+        }
+
 
         public static List<BookModel> MyBooks(string username)
         {
